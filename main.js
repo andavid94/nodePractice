@@ -1,5 +1,5 @@
 /*
-** This program 
+** This program submits get/post requests to a local Node server
 */
 var express = require("express");
 var app = express();
@@ -24,6 +24,7 @@ app.get('/', function(req, response) {
         qParams.push({'name': p, 'value': req.query[p]});
     }
     context.dataList = qParams;
+    context.type = 'GET';
 
     response.render('get-data', context);
 });
@@ -33,19 +34,14 @@ app.get('/', function(req, response) {
 */
 app.post('/', function(req, response) {
     
-    var qParams = [];
+    var bParams = [];
     for (var p in req.body) {
-        qParams.push({'name': p, 'value': req.body[p]});
+        bParams.push({'name': p, 'value': req.body[p]});
     }
-    
-    /*var bodyList = [];
-    for (var p in req.body) {
-        bodyList.push({'name': p, 'value': req.body[p]});
-    }*/
 
     var context = {};
-    context.dataList = qParams;
-    //context.bodyList = bodyList;
+    context.bodyList = bParams;
+    context.type = 'POST';
 
     response.render('post-data', context);
 });
